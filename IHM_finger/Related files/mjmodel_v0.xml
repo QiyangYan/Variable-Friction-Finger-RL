@@ -1,0 +1,42 @@
+<mujoco model="IHM_finger">
+  <compiler angle="radian" meshdir="/Users/qiyangyan/Desktop/IHM_finger/IHM_finger/meshes/" autolimits="true"/>
+  <statistic meansize="0.0771609" extent="0.313767" center="0.00508997 -0.163156 0.013906"/>
+  <asset>
+    <mesh name="base_link" file="base_link.STL"/>
+    <mesh name="left_finger" file="left_finger.STL"/>
+    <mesh name="left_insert" file="left_insert.STL"/>
+    <mesh name="right_finger" file="right_finger.STL"/>
+    <mesh name="right_insert" file="right_insert.STL"/>
+  </asset>
+  <worldbody>
+    <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.752941 0.752941 0.752941 1" mesh="base_link"/>
+    <geom type="mesh" rgba="0.752941 0.752941 0.752941 1" mesh="base_link"/>
+    <body name="left_finger" pos="0.037012 -0.1645 0" quat="0.119488 0.696937 0.119488 -0.696939">
+      <inertial pos="-0.0070962 0.07599 -0.00064418" quat="0.432838 0.441251 -0.563798 0.547796" mass="0.054988" diaginertia="5.31671e-05 5.05577e-05 1.02702e-05"/>
+      <joint name="joint0" pos="0 0 0" axis="1 0 0" range="-3.14 3.14"/>
+      <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.75294 0.75294 0.75294 1" mesh="left_finger"/>
+      <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="left_finger"/>
+      <geom type="cylinder" fromto="0 0 0 0.03 0 0" size="0.002" rgba="1 0 0 1"/>
+      <geom type="cylinder" fromto="0 0 0 0 0.03 0" size="0.002" rgba="0 1 0 1"/>
+      <geom type="cylinder" fromto="0 0 0 0 0 0.03" size="0.002" rgba="0 0 1 1"/>
+      <body name="left_insert" pos="-0.013495 0.144 0">
+        <inertial pos="0.012 -0.051365 0.011392" quat="0.498599 0.501397 -0.501397 0.498599" mass="0.027304" diaginertia="2.72798e-05 2.6941e-05 2.15361e-06"/>
+        <joint name="joint1" pos="0 0 0" axis="0 0 1" type="slide" range="-10 10"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.99216 1 0.41961 1" mesh="left_insert"/>
+        <geom type="mesh" rgba="0.99216 1 0.41961 1" mesh="left_insert"/>
+      </body>
+    </body>
+    <body name="right_finger" pos="-0.037488 -0.1645 0" quat="0.704992 0.054626 -0.704995 0.0546262">
+      <inertial pos="-0.002917 0.07599 -0.00064418" quat="0.432838 0.441251 -0.563798 0.547796" mass="0.054988" diaginertia="5.31671e-05 5.05577e-05 1.02702e-05"/>
+      <joint name="joint2" pos="0 0 0" axis="1 0 0" range="-3.14 3.14"/>
+      <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.75294 0.75294 0.75294 1" mesh="right_finger"/>
+      <geom type="mesh" rgba="0.75294 0.75294 0.75294 1" mesh="right_finger"/>
+      <body name="right_insert" pos="-0.010316 0.144 -0.014597">
+        <inertial pos="0.012 -0.051365 0.02879" quat="0.498599 0.501397 -0.501397 0.498599" mass="0.027304" diaginertia="2.72798e-05 2.6941e-05 2.15361e-06"/>
+        <joint name="joint3" pos="0 0 0" axis="0 0 1" type="slide" range="-10 10"/>
+        <geom type="mesh" contype="0" conaffinity="0" group="1" density="0" rgba="0.99216 1 0.41961 1" mesh="right_insert"/>
+        <geom type="mesh" rgba="0.99216 1 0.41961 1" mesh="right_insert"/>
+      </body>
+    </body>
+  </worldbody>
+</mujoco>

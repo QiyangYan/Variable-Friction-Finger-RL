@@ -149,6 +149,7 @@ def get_base_manipulate_env(HandEnvClass: Union[MujocoHandEnv, MujocoPyHandEnv])
             assert goal_a.shape == goal_b.shape
             assert goal_a.shape[-1] == 7
 
+
             d_pos = np.zeros_like(goal_a[..., 0])
             d_rot = np.zeros_like(goal_b[..., 0])
 
@@ -166,7 +167,7 @@ def get_base_manipulate_env(HandEnvClass: Union[MujocoHandEnv, MujocoPyHandEnv])
         # GoalEnv methods
         # ----------------------------
 
-        def compute_reward(self, achieved_goal, goal, info):
+        def compute_reward(self, achieved_goal, goal, action, info):
             if self.reward_type == "sparse":
                 '''success是 0, unsuccess是 1'''
                 success, _, _ = self._is_success(achieved_goal, goal).astype(np.float32)
@@ -184,13 +185,17 @@ def get_base_manipulate_env(HandEnvClass: Union[MujocoHandEnv, MujocoPyHandEnv])
                 # slip penalty
                 d_slip, drop = self._slip_indicator(achieved_goal)  # d_slip is negative value
 
+                # contact reward @Sean
+
                 # same action reward
-
-
+                if self.last_friction == self.current_friction:
+                    d_action = 0.1
+                else:
+                    d_action = -0.1
 
                 # We weigh the difference in position to avoid that `d_pos` (in meters) is completely
                 # dominated by `d_rot` (in radians).
-                return -(10.0 * d_pos + d_rot) + d_achieve + d_slip  # d_slip is negative value
+                return -(10.0 * d_pos + d_rot) + d_achieve + d_slip + d_action  # d_slip is negative value
 
         # RobotEnv methods
         # ----------------------------

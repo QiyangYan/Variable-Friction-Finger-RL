@@ -133,6 +133,9 @@ class MujocoHandEnv(get_base_hand_env(MujocoRobotEnv)):
         self, default_camera_config: dict = DEFAULT_CAMERA_CONFIG, **kwargs
     ) -> None:
         super().__init__(default_camera_config=default_camera_config, **kwargs)
+        self.last_friction = None
+        self.current_friction = None
+        self.action_count = 0
 
     def _set_action(self, action):
         super()._set_action(action)  # check if action has the right shape: 3 dimension
@@ -141,6 +144,13 @@ class MujocoHandEnv(get_base_hand_env(MujocoRobotEnv)):
         ctrlrange = self.model.actuator_ctrlrange
         actuation_range = (ctrlrange[:, 1] - ctrlrange[:, 0]) / 2.0
         gripper_pos_ctrl, friction_state = action[:1], action[2]
+
+        if self.action_count == 0:
+            self.current_friction = friction_state
+        else:
+            self.last_friction = self.current_friction
+            self.current_friction = friction_state
+        self.action_count += 1
 
         # Friction control follows this formate: [left right]
         '''

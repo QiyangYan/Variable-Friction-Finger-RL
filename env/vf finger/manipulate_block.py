@@ -158,8 +158,8 @@ class MujocoHandBlockEnv(MujocoManipulateEnv, EzPickle):
     def __init__(
         self,
         target_position="random",
-        target_rotation="xyz",
-        reward_type="sparse",
+        target_rotation="fixed",
+        reward_type="dense",
         **kwargs,
     ):
         MujocoManipulateEnv.__init__(
@@ -167,7 +167,6 @@ class MujocoHandBlockEnv(MujocoManipulateEnv, EzPickle):
             model_path=MANIPULATE_BLOCK_XML,
             target_position=target_position,
             target_rotation=target_rotation,
-            target_position_range=np.array([(-0.04, 0.04), (-0.06, 0.02), (0.0, 0.06)]),  # set target
             reward_type=reward_type,
             **kwargs,
         )

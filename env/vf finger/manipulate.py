@@ -77,7 +77,6 @@ def get_base_manipulate_env(HandEnvClass: Union[MujocoHandEnv, MujocoPyHandEnv])
             self,
             target_position,  # with a randomized target position (x,y,z), where z is fixed but with tolerance
             target_rotation,  # with a randomized target rotation around z, no rotation around x and y
-            target_position_range,
             reward_type,  # more likely dense
             initial_qpos=None,
             randomize_initial_position=True,
@@ -115,7 +114,6 @@ def get_base_manipulate_env(HandEnvClass: Union[MujocoHandEnv, MujocoPyHandEnv])
             """
             self.target_position = target_position
             self.target_rotation = target_rotation
-            self.target_position_range = target_position_range
             # 这段代码用于将一组 “欧拉角表示的旋转” (“平行旋转”) 转换为 “四元数表示”
             self.parallel_quats = [
                 rotations.euler2quat(r) for r in rotations.get_parallel_rotations()
@@ -256,24 +254,11 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
         initial_qpos = None
 
         # Randomization initial rotation.
+        # 注意: 每次都需要升到固定高度,需要给z加一个offset
         if self.randomize_initial_rotation:
             if self.target_rotation == "z":
                 angle = self.np_random.uniform(-np.pi, np.pi)
                 axis = np.array([0.0, 0.0, 1.0])
-                offset_quat = quat_from_angle_and_axis(angle, axis)
-                initial_quat = rotations.quat_mul(initial_quat, offset_quat)
-            elif self.target_rotation == "parallel":
-                angle = self.np_random.uniform(-np.pi, np.pi)
-                axis = np.array([0.0, 0.0, 1.0])
-                z_quat = quat_from_angle_and_axis(angle, axis)
-                parallel_quat = self.parallel_quats[
-                    self.np_random.integers(len(self.parallel_quats))
-                ]
-                offset_quat = rotations.quat_mul(z_quat, parallel_quat)
-                initial_quat = rotations.quat_mul(initial_quat, offset_quat)
-            elif self.target_rotation in ["xyz", "ignore"]:
-                angle = self.np_random.uniform(-np.pi, np.pi)
-                axis = self.np_random.uniform(-1.0, 1.0, size=3)
                 offset_quat = quat_from_angle_and_axis(angle, axis)
                 initial_quat = rotations.quat_mul(initial_quat, offset_quat)
             elif self.target_rotation == "fixed":
@@ -288,6 +273,7 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
             if self.target_position != "fixed":
                 initial_pos += self.np_random.normal(size=3, scale=0.005)
 
+        # finalise initial pose
         initial_quat /= np.linalg.norm(initial_quat)
         initial_qpos = np.concatenate([initial_pos, initial_quat])
 
@@ -310,6 +296,17 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
 
         return is_on_palm()
 
+    def _sample_coord(self, z):
+        # sample region: a triangle
+        # y_range = [-0.24, -0.285]
+        x_range = [-0.04, 0.04]
+        x = self.np_random.uniform(x_range[0], x_range[1])
+        y_range = [-0.24, 1.125*abs(x)-0.285]
+        y = self.np_random.uniform(y_range[0], y_range[1])
+        coord = [x, y, z]
+        return coord
+
+
     def _sample_goal(self):
 
         # Select a goal for the object position.
@@ -318,21 +315,11 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
         '''
         target_pos = None
         if self.target_position == "random":
-            assert self.target_position_range.shape == (3, 2)
-            offset = self.np_random.uniform(
-                self.target_position_range[:, 0], self.target_position_range[:, 1]
-                # sample in defined position range
-            )
-            assert offset.shape == (3,)
-            offset = np.concatenate(offset[1:2], 0) # remove the z-offset
-            target_pos = (
-                self._utils.get_joint_qpos(self.model, self.data, "object:joint")[:3]
-                + offset
-            )
-        elif self.target_position in ["ignore", "fixed"]:
-            target_pos = self._utils.get_joint_qpos(
-                self.model, self.data, "object:joint"
-            )[:3]
+            z = 0.08
+            target_pos = self._sample_coord(z)
+            target_pos = np.array(target_pos, dtype=np.float32)
+        elif self.target_position in "fixed":
+            target_pos = [0.2, 0.4, 0.1]
         else:
             raise error.Error(
                 f'Unknown target_position option "{self.target_position}".'
@@ -346,19 +333,7 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
             angle = self.np_random.uniform(-np.pi, np.pi)
             axis = np.array([0.0, 0.0, 1.0])
             target_quat = quat_from_angle_and_axis(angle, axis)
-        elif self.target_rotation == "parallel":
-            angle = self.np_random.uniform(-np.pi, np.pi)
-            axis = np.array([0.0, 0.0, 1.0])
-            target_quat = quat_from_angle_and_axis(angle, axis)
-            parallel_quat = self.parallel_quats[
-                self.np_random.integers(len(self.parallel_quats))
-            ]
-            target_quat = rotations.quat_mul(target_quat, parallel_quat)
-        elif self.target_rotation == "xyz":
-            angle = self.np_random.uniform(-np.pi, np.pi)
-            axis = self.np_random.uniform(-1.0, 1.0, size=3)
-            target_quat = quat_from_angle_and_axis(angle, axis)
-        elif self.target_rotation in ["ignore", "fixed"]:
+        elif self.target_rotation in "fixed":
             target_quat = self.data.get_joint_qpos("object:joint")
         else:
             raise error.Error(
@@ -376,16 +351,10 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
         # is not obscured.
         goal = self.goal.copy()
         assert goal.shape == (7,)
-        if self.target_position == "ignore":
-            # Move the object to the side since we do not care about it's position.
-            goal[0] += 0.15
 
         self._utils.set_joint_qpos(self.model, self.data, "target:joint", goal)
         self._utils.set_joint_qvel(self.model, self.data, "target:joint", np.zeros(6))
 
-        if "object_hidden" in self._model_names.geom_names:
-            hidden_id = self._model_names.geom_name2id["object_hidden"]
-            self.model.geom_rgba[hidden_id, 3] = 1.0
         self._mujoco.mj_forward(self.model, self.data)
 
     def _get_obs(self):

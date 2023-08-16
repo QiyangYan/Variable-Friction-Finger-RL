@@ -1,0 +1,33 @@
+Why SAC?
+Soft Actor-Critic 是面向Maximum Entropy Reinforcement learning 开发的一种off policy算法，
+和DDPG相比，Soft Actor-Critic使用的是"随机策略stochastic policy"，相比确定性策略具有一定的优势.
+随机策略的优势在于, 如果动作空间中有几个动作并列作为最优或者差不多, 如果每次都直接选择最好的, 可能会遗漏某个有用的action,
+有用的trajectory. 与此同时, SAC在上述情况中再加上了entropy,目标变成,要同时最大化 expected return 和 随机性.
+通过这样, 我们可以增强了 exploration, 进而学到更多解决问题/任务的方式, 得到一个更 robust 的策略
+
+
+What is SAC?
+在SAC算法中为了鼓励探索，增加了熵的概念, 也就是在每个 state 的时候把 entropy 也考虑进来, 计算每一个state的entropy.
+因此, 在SAC中, entropy被融合进了价值函数/expected return的计算.
+首先, 它和常规算法第一个不同点就是目标. 通过把 argmax(expected return) 替换成 arg(expected (action value function + entropy)),
+把训练目标从 最大化价值函数 转变成 最大化一个综合指标: 价值函数 + 墒.
+其次, 需要注意的是, 所有价值函数都被附加了entropy.
+
+What is Entropy?
+Entropy度量了一个随机函数的无序程度. Entropy越大,random exploration就越大.
+
+Why soft? Where is soft?
+
+
+
+Networks in SAC?
+Actor: 1
+Critic Q: 2, use the clipped double Q-trick to eliminate the over-estimation
+Critic
+
+
+注意: 以下所有的训练都是基于 replay buffer 内的 experience 进行
+
+1. How to update critics, 2 Q function
+
+

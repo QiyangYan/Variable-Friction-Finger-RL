@@ -153,7 +153,7 @@ class MujocoHandEnv(get_base_hand_env(MujocoRobotEnv)):
             self.current_friction = friction_state
         self.action_count += 1
 
-        if self.action_acount > 20:
+        if self.action_count > 95:
             pick_up = 3
         else:
             pick_up = 0
@@ -193,6 +193,7 @@ class MujocoHandEnv(get_base_hand_env(MujocoRobotEnv)):
                 actuation_center[i] = self.data.get_joint_qpos(
                     self.model.actuator_names[i].replace(":_A",":")  # convert actuator name to joint name
                 )
+                print(actuation_center)
             '''Add this if the joints that control small servos are not included'''
             '''
             for joint_name in ["LFF", "RFF"]: 

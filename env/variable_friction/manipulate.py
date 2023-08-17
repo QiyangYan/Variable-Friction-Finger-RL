@@ -147,12 +147,17 @@ def get_base_manipulate_env(HandEnvClass: MujocoHandEnv):
             assert goal_a.shape == goal_b.shape
             assert goal_a.shape[-1] == 7
 
-
             d_pos = np.zeros_like(goal_a[..., 0])
             d_rot = np.zeros_like(goal_b[..., 0])
 
             delta_pos = goal_a[..., :3] - goal_b[..., :3]
             d_pos = np.linalg.norm(delta_pos, axis=-1)
+
+            # print(goal_b, goal_a)
+            # delta_pos_z = goal_a[..., 3] - goal_b[..., 3]
+            # print("distance",delta_pos_z)
+            # d_pos_z = np.linalg.norm(delta_pos_z)
+            # print("distance", d_pos_z)
 
             quat_a, quat_b = goal_a[..., 3:], goal_b[..., 3:]
             quat_diff = rotations.quat_mul(quat_a, rotations.quat_conjugate(quat_b))  # q_diff = q1 * q2*
@@ -166,34 +171,41 @@ def get_base_manipulate_env(HandEnvClass: MujocoHandEnv):
         # ----------------------------
 
         def compute_reward(self, achieved_goal, goal, info):
+            self.reward_type = "dense"
             if self.reward_type == "sparse":
                 '''success是 0, unsuccess是 1'''
                 success, _, _ = self._is_success(achieved_goal, goal)
+                print("sparse")
                 return success.astype(np.float32) - 1.0
             else:
                 ''' dense: distance and angle dependent
                 the negative summation of the Euclidean distance to the block’s target x 10
                 + the theta angle difference to the target orientation	
                 '''
+                # print("achieve:", achieved_goal)
                 success_bool, d_pos, d_rot = self._is_success(achieved_goal, goal)
+                # print(success_bool)
                 success = success_bool.astype(np.float32)
                 d_achieve = success * 5
 
                 '''Add more reward term'''
                 # slip penalty
-                d_slip, drop = self._slip_indicator(achieved_goal)  # d_slip is negative value
+                # d_slip, drop = self._slip_indicator(achieved_goal)  # d_slip is negative value
 
                 # contact reward @Sean
 
                 # same action reward
                 if self.last_friction == self.current_friction:
-                    d_action = 0.1
+                    d_action = 0.5
                 else:
-                    d_action = -0.1
+                    d_action = -0.5
+                # print("d_pos:", d_pos, "d_rot:", d_rot, "d_action", d_action, "d_achieve", d_achieve)
+                # print(-(30.0 * d_pos + d_rot) + d_achieve + d_action * 2)
 
                 # We weigh the difference in position to avoid that `d_pos` (in meters) is completely
                 # dominated by `d_rot` (in radians).
-                return -(10.0 * d_pos + d_rot) + d_achieve + d_slip + d_action  # d_slip is negative value
+                # return -(10.0 * d_pos + d_rot) + d_achieve + d_slip + d_action  # d_slip is negative value
+                return -(30.0 * d_pos + d_rot) + d_achieve + d_action * 2
 
         # RobotEnv methods
         # ----------------------------
@@ -203,23 +215,48 @@ def get_base_manipulate_env(HandEnvClass: MujocoHandEnv):
             achieved_pos = (d_pos < self.distance_threshold).astype(np.float32)
             achieved_rot = (d_rot < self.rotation_threshold).astype(np.float32)
             achieved_both = achieved_pos * achieved_rot
+            # print("success:", achieved_goal,desired_goal)
+            # print("reward:", d_pos, d_rot, d_pos_z)
             return achieved_both, d_pos, d_rot
 
         def _slip_indicator(self,achieved_goal):
             start_position = self.initial_qpos
             qpos = self._utils.get_joint_qpos(self.model, self.data, "object:joint").copy() # 7 element
-            slip_p = qpos[2] - start_position[2] # index: 0,1,2 (x,y,z)
+            slip_p = qpos[2] - start_position[2] # index: 0,1,2 (x,y,z) % not start pos
 
-            z_axis = np.array([0, 0, 1])
             quat_b = achieved_goal[..., 3:]
-            quat_diff_z_axis = rotations.quat_mul(z_axis, rotations.quat_conjugate(quat_b))
-            slip_q = 2 * np.arccos(np.clip(quat_diff_z_axis[0], -1.0, 1.0))
-
-            if abs(slip_p) > self.slip_pos_threshold or abs(slip_q) > self.slip_rot_threshold:
-                penalty = - ( abs(slip_p) + abs(slip_q) )
+            z_axis = np.array([1, 0.0087, 0, 0])
+            if quat_b.shape[0] == 4:
+                quat_diff_z_axis = rotations.quat_mul(z_axis, rotations.quat_conjugate(quat_b))
+                slip_q = 2 * np.arccos(np.clip(quat_diff_z_axis[0], -1.0, 1.0))
+                if abs(slip_p) > self.slip_pos_threshold or abs(slip_q) > self.slip_rot_threshold:
+                    penalty = - (abs(slip_p) + abs(slip_q))
+                    drop = True
+                else:
+                    penalty = -20
+                    drop = False
             else:
-                penalty = -20
-                drop = False
+                # print(quat_b.shape[0])  # this give number of tuples 256 from memory
+                num_rows = quat_b.shape[0]
+                z_axis = np.tile(z_axis, (num_rows, 1))
+                quat_diff_z_axis = rotations.quat_mul(z_axis, rotations.quat_conjugate(quat_b))
+                # print(num_rows)
+                # print(z_axis.shape)
+                penalty = {}
+                drop = {}
+                for i in range(num_rows):
+                    slip_q = 2 * np.arccos(np.clip(quat_diff_z_axis[i,0], -1.0, 1.0))
+
+                    if np.abs(slip_p[i]) > self.slip_pos_threshold or np.abs(slip_q[i]) > self.slip_rot_threshold:
+                        penalty[i] = - (abs(slip_p[i]) + abs(slip_q[i]))
+                        drop[i] = True
+                    else:
+                        penalty[i] = -20
+                        drop[i] = False
+
+            # print((rotations.quat_conjugate(quat_b)).shape)
+            # print(z_axis.shape)
+
             return penalty, drop
 
     return BaseManipulateEnv
@@ -227,7 +264,7 @@ def get_base_manipulate_env(HandEnvClass: MujocoHandEnv):
 
 class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
     def _get_achieved_goal(self):
-        object_qpos = self._utils.get_joint_qpos(self.model, self.data, "object:joint")
+        object_qpos = self._utils.get_joint_qpos(self.model, self.data, "joint:object")
         assert object_qpos.shape == (7,)
         return object_qpos
 
@@ -240,6 +277,7 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
         self.data.time = self.initial_time
         self.data.qpos[:] = np.copy(self.initial_qpos)
         self.data.qvel[:] = np.copy(self.initial_qvel)
+        self.action_count = 0;
         if self.model.na != 0:
             self.data.act[:] = None
 
@@ -271,7 +309,8 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
         # Randomize initial position.
         if self.randomize_initial_position:
             if self.target_position != "fixed":
-                initial_pos += self.np_random.normal(size=3, scale=0.005)
+                # initial_pos += self.np_random.normal(size=3, scale=0.005)
+                initial_pos = self._sample_coord(0)
 
         # finalise initial pose
         initial_quat /= np.linalg.norm(initial_quat)
@@ -319,7 +358,7 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
             target_pos = self._sample_coord(z)
             target_pos = np.array(target_pos, dtype=np.float32)
         elif self.target_position in "fixed":
-            target_pos = [-0.02, -0.285, 0.1]
+            target_pos = [0, -0.251365, 0.1]
             target_pos = np.array(target_pos, dtype=np.float32)
         else:
             raise error.Error(
@@ -362,24 +401,23 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
         self._mujoco.mj_forward(self.model, self.data)
 
     def _get_obs(self):
-        # robot_qpos, robot_qvel = self._utils.robot_get_obs(
-        #     self.model, self.data, self._model_names.joint_names
-        # )
-        robot_qpos = self.data.qpos
-        robot_qvel = self.data.qvel
-
-        object_qvel = robot_qvel[4:10]
-        robot_qpos = robot_qpos[:4]
-        robot_qvel = robot_qvel[:4]
         # what's expect with single joint: (array([], dtype=float64), array([], dtype=float64))
         # what's expected:
-        # Position: 4 slide joints, 2 6DOF free joints, 4 + 2*7 = 19 element
+        # Position: 4 + 1 slide joints, 2 6DOF free joints, 4 + 2*7 = 19 element
         # each slide joint has position with 1 element, each free joints has position with 7 elements
         # for free joint, 3 elements are (x,y,z), 4 elements are (x,y,z,w) quaternion
         # Velocity: 4 slide joints, 2 DOF free joints, 4 + 2*6 = 17 element
         # Result:
-        # pos = [0.0.0.0.0. 0.-0.251365 0.1.0.0.0. 0.0.0.1.0.0.0.]
+        # pos = [0. 0.0.0.0. 0.-0.251365 0.1.0.0.0. 0.0.0.1.0.0.0.]
         # vel = [0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
+
+        robot_qpos = self.data.qpos
+        robot_qvel = self.data.qvel
+
+        # achieved_goal = robot_qpos[4:11]
+        object_qvel = robot_qvel[5:11]
+        robot_qpos = robot_qpos[1:5]
+        robot_qvel = robot_qvel[1:5]
 
         achieved_goal = (
             self._get_achieved_goal().ravel()
@@ -394,6 +432,7 @@ class MujocoManipulateEnv(get_base_manipulate_env(MujocoHandEnv)):
                 achieved_goal
             ]
         )
+
         return {
             "observation": observation.copy(),
             "achieved_goal": achieved_goal.copy(),

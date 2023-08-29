@@ -144,7 +144,7 @@ class BaseRobotEnv(GoalEnv):
         obs = self._get_obs()
 
         info = {
-            "is_success": self._is_success(obs["achieved_goal"], self.goal)[0],
+            "is_success": self._is_success_radi(obs["achieved_goal"], self.goal)[0],
         }
         # info = {
         #     "is_success": self._is_success(obs["achieved_goal"], self.goal),

@@ -232,24 +232,25 @@ def get_base_manipulate_env(HandEnvClass: MujocoHandEnv):
                 # closer to target, greater reward
 
                 # success *= 2
+                success *= 0
                 if isinstance(d_radi, np.ndarray):
                     # print("x is an array (list)")
                     for i, radius in enumerate(np.array(d_radi)):
-                        if radius < 0.075:
-                            success[i] = success[i] * 3
+                        # if radius < 0.075:
+                        #     success[i] = success[i] * 3
                         # if r_left[i] > 0.135 or r_right[i] > 0.135 or r_left[i] < 0.0535 or r_right[i] < 0.0535:
-                        if (not self.terminate_r_limit[0] - 0.005 < r_left[i] < self.terminate_r_limit[1] - 0.005) or (
-                                not self.terminate_r_limit[0] - 0.005 < r_right[i] < self.terminate_r_limit[1] - 0.005):
+                        if (not self.terminate_r_limit[0] + 0.005 < r_left[i] < self.terminate_r_limit[1] - 0.005) or (
+                                not self.terminate_r_limit[0] + 0.005 < r_right[i] < self.terminate_r_limit[1] - 0.005):
                             success[i] -= 10
 
                 else:
                     # print("x is a single integer")
-                    if d_radi < 0.075:
-                        success = success * 3
+                    # if d_radi < 0.075:
+                    #     success = success * 3
                     # if r_left > 0.135 or r_right > 0.135 or r_left < 0.0485 or r_right < 0.0485:
                     # [0.07,0.1355]
-                    if (not self.terminate_r_limit[0]-0.005 < r_left < self.terminate_r_limit[1]-0.005) or (
-                            not self.terminate_r_limit[0]-0.005 < r_right < self.terminate_r_limit[1]-0.005):
+                    if (not self.terminate_r_limit[0]+0.005 < r_left < self.terminate_r_limit[1]-0.005) or (
+                            not self.terminate_r_limit[0]+0.005 < r_right < self.terminate_r_limit[1]-0.005):
                         success -= 10
 
                 # if self.switchFriction_count > 3:

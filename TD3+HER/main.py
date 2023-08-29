@@ -13,7 +13,7 @@ import os
 import torch
 import gymnasium.utils.seeding
 
-ENV_NAME = "FetchPickAndPlace-v2"
+ENV_NAME = "VariableFriction-v0"
 INTRO = False
 Train = True
 Play_FLAG = False
@@ -41,59 +41,6 @@ os.environ['OMP_NUM_THREADS'] = '1'
 os.environ['MKL_NUM_THREADS'] = '1'
 os.environ['IN_MPI'] = '1'
 
-
-def eval_agent(env_, agent_):
-    total_success_rate = []
-    running_r = []
-    for ep in range(10):
-        per_success_rate = []
-        env_dictionary = env_.reset()[0]
-        s = env_dictionary["observation"]
-        ag = env_dictionary["achieved_goal"]
-        g = env_dictionary["desired_goal"]
-        while np.linalg.norm(ag - g) <= 0.05:
-            env_dictionary = env_.reset()[0]
-            s = env_dictionary["observation"]
-            ag = env_dictionary["achieved_goal"]
-            g = env_dictionary["desired_goal"]
-        ep_r = 0
-        for t in range(50):
-            with torch.no_grad():
-                a = agent_.choose_action(s, g, train_mode=False)
-            observation_new, r, _, _, info_ = env_.step(a)
-            s = observation_new['observation']
-            g = observation_new['desired_goal']
-            per_success_rate.append(info_['is_success'])
-            ep_r += r
-        total_success_rate.append(per_success_rate)
-        if ep == 0:
-            running_r.append(ep_r)
-        else:
-            running_r.append(running_r[-1] * 0.99 + 0.01 * ep_r)
-    total_success_rate = np.array(total_success_rate)
-    local_success_rate = np.mean(total_success_rate[:, -1])
-    global_success_rate = MPI.COMM_WORLD.allreduce(local_success_rate, op=MPI.SUM)
-    return global_success_rate / MPI.COMM_WORLD.Get_size(), running_r, ep_r
-
-
-if INTRO:
-    print(f"state_shape:{state_shape[0]}\n"
-          f"number of actions:{n_actions}\n"
-          f"action boundaries:{action_bounds}\n"
-          f"max timesteps:{test_env._max_episode_steps}")
-    for _ in range(3):
-        done = False
-        test_env.reset()
-        while not done:
-            action = test_env.action_space.sample()
-            test_state, test_reward, terminated, test_done, test_info = test_env.step(action)
-            # substitute_goal = test_state["achieved_goal"].copy()
-            # substitute_reward = test_env.compute_reward(
-            #     test_state["achieved_goal"], substitute_goal, test_info)
-            # print("r is {}, substitute_reward is {}".format(r, substitute_reward))
-            test_env.render()
-    exit(0)
-
 env = gym.make(ENV_NAME)
 # env.seed(MPI.COMM_WORLD.Get_rank())
 gymnasium.utils.seeding.np_random(MPI.COMM_WORLD.Get_rank())
@@ -113,7 +60,129 @@ agent = Agent(n_states=state_shape,
               tau=tau,
               k_future=k_future,
               env=dc(env))
+agent.load_weights("/Users/qiyangyan/Desktop/TD3+HER/Pre-trained models/VariableFriction-v0_after15epoch_niceProgress.pth")
+
+def eval_agent(env_, agent_):
+    total_success_rate = []
+    running_r = []
+    for ep in range(10):
+        per_success_rate = []
+        env_dictionary = env_.reset()[0]
+        s = env_dictionary["observation"]
+        ag = env_dictionary["achieved_goal"]
+        g = env_dictionary["desired_goal"]
+        while np.linalg.norm(ag - g) <= 0.05:
+            env_dictionary = env_.reset()[0]
+            s = env_dictionary["observation"]
+            ag = env_dictionary["achieved_goal"]
+            g = env_dictionary["desired_goal"]
+        ep_r = 0
+
+        pick_up()
+
+        last_f = 0
+        for t in range(50):
+            with torch.no_grad():
+                action = agent_.choose_action(s, g, train_mode=False)
+
+            # print("friction changing")
+            if action[1] != last_f:
+                friction_action1 = [2, 0]
+                friction_action2 = [2, action[1]]  # 2 here is the friction change indicator
+                complete = change_friction(np.array(friction_action1), env)
+                if complete == False:
+                    # print("terminated during friction changing")
+                    break
+                complete = change_friction(np.array(friction_action2), env)
+                if complete == False:
+                    # print("terminated during friction changing")
+                    break
+                last_f = action[1].copy()
+            else:
+                last_f = last_f
+            # print("friction change complete")
+
+            observation_new, r, terminated, _, info_ = env_.step(action)
+            if terminated:
+                # print(terminated)
+                break
+
+            s = observation_new['observation']
+            g = observation_new['desired_goal']
+            per_success_rate.append(info_['is_success'])
+            ep_r += r
+
+        total_success_rate.append(per_success_rate[-1])
+        if ep == 0:
+            running_r.append(ep_r)
+        else:
+            running_r.append(running_r[-1] * 0.99 + 0.01 * ep_r)
+    # print(total_success_rate)
+    total_success_rate = np.array(total_success_rate,dtype=object)
+    local_success_rate = np.mean(total_success_rate)
+    global_success_rate = MPI.COMM_WORLD.allreduce(local_success_rate, op=MPI.SUM)
+    return global_success_rate / MPI.COMM_WORLD.Get_size(), running_r[-1], ep_r
+
+
+def change_friction(action, env):
+    # print("--------------changing friction")
+    _, _, _, _, _ = env.step(action)
+    # step = 0
+    while not env.action_complete():
+        # step += 1
+        # if step % 1000 == 0:
+        #     print("changing friction for action:", action)
+        _, _, terminated, _, _ = env.step(action)
+        if terminated == True:
+            return False # false meaning not complete
+    _, _, _, _, _ = env.step(action)
+    # print("completed change friction")
+    return True
+
+
+def pick_up():
+    '''Pick Up'''
+    pick_up = [1.05, 2]
+    # print("start picking")
+    _, _, _, _, _ = env.step(np.array(pick_up))
+    while not env.action_complete():
+        _, _, _, _, _ = env.step(np.array(pick_up))
+        # let self.pick_up = true
+    for _ in range(50):
+        _, _, _, _, _ = env.step(np.array(pick_up))
+    # print("pick up complete --------")
+
+
+def adjust_torque(env, lower):
+    env.adjust_torque(lower)
+
+
+def action_preprocess(action):
+    friction_state = action[1]
+    '''sliding and rotation'''
+    # if friction_state >= 0.33:
+    #     friction_state = 1
+    # elif friction_state <= -0.33:
+    #     friction_state = -1
+    # elif -0.33 < friction_state < 0.33:
+    #     friction_state = 0
+    # else:
+    #     print(friction_state)
+    #     assert(friction_state,2) # 随便写个东西来报错
+    '''only sliding'''
+    if friction_state >= 0:
+        friction_state = 1
+    elif friction_state < 0:
+        friction_state = -1
+    else:
+        print(friction_state)
+        assert friction_state==2 # 随便写个东西来报错
+    action[1] = friction_state
+    return action
+
+
 if Train:
+    success_list = []
     t_success_rate = []
     total_ac_loss = []
     total_cr_loss = []
@@ -122,11 +191,14 @@ if Train:
         epoch_actor_loss = 0
         epoch_critic_loss = 0
         for cycle in range(0, MAX_CYCLES):
-            # print(cycle)
+            if cycle % 10 == 0:
+                print("cycle:", cycle)
             mb = []
             cycle_actor_loss = 0
             cycle_critic_loss = 0
+            count = 0
             for episode in range(MAX_EPISODES):
+                # print(episode)
                 episode_dict = {
                     "state": [],
                     "action": [],
@@ -139,14 +211,46 @@ if Train:
                 state = env_dict["observation"]
                 achieved_goal = env_dict["achieved_goal"]
                 desired_goal = env_dict["desired_goal"]
-                while np.linalg.norm(achieved_goal - desired_goal) <= 0.05:
+                while np.linalg.norm(achieved_goal - desired_goal) <= 0.03:
                     env_dict = env.reset()[0]
                     state = env_dict["observation"]
                     achieved_goal = env_dict["achieved_goal"]
                     desired_goal = env_dict["desired_goal"]
+
+                '''picking'''
+                pick_up()
+
+                last_f = 0
+                # print("-------------start-----------")
                 for t in range(50):
                     action = agent.choose_action(state, desired_goal)
-                    next_env_dict, reward, terminated, done, info = env.step(action)
+                    action = action_preprocess(action)  # convert continuous friction to discrete
+                    '''change friction first'''
+                    # print("friction changing")
+                    if action[1] != last_f:
+                        friction_action1 = [2,0]
+                        friction_action2 = [2, action[1]]  # 2 here is the friction change indicator
+                        complete = change_friction(np.array(friction_action1), env)
+                        if complete == False:
+                            # print("terminated during friction changing")
+                            break
+                        complete = change_friction(np.array(friction_action2), env)
+                        if complete == False:
+                            # print("terminated during friction changing")
+                            break
+                        last_f = action[1].copy()
+                    else:
+                        last_f = last_f
+                    # print("friction change complete")
+                    # time.sleep(2)
+
+                    '''take step'''
+                    # print(action)
+                    next_env_dict, reward, terminated, truncated, info = env.step(action)
+                    # print("terminated:", terminated, "truncated", truncated)
+                    if terminated:
+                        # print(terminated)
+                        break
 
                     next_state = next_env_dict["observation"]
                     next_achieved_goal = next_env_dict["achieved_goal"]
@@ -161,6 +265,8 @@ if Train:
                     achieved_goal = next_achieved_goal.copy()
                     desired_goal = next_desired_goal.copy()
 
+                    # time.sleep(2)
+
                 episode_dict["state"].append(state.copy())
                 episode_dict["achieved_goal"].append(achieved_goal.copy())
                 episode_dict["desired_goal"].append(desired_goal.copy())
@@ -168,15 +274,17 @@ if Train:
                 episode_dict["next_achieved_goal"] = episode_dict["achieved_goal"][1:]
                 mb.append(dc(episode_dict))
 
+            # print("agent store")
             agent.store(mb)
             for n_update in range(num_updates):
+                # print("train")
                 actor_loss, critic_loss = agent.train()
                 cycle_actor_loss += actor_loss
                 cycle_critic_loss += critic_loss
 
-            epoch_actor_loss += cycle_actor_loss / num_updates
-            epoch_critic_loss += cycle_critic_loss / num_updates
-            agent.update_networks()
+                epoch_actor_loss += cycle_actor_loss / num_updates
+                epoch_critic_loss += cycle_critic_loss / num_updates
+                agent.update_networks()
 
         ram = psutil.virtual_memory()
         success_rate, running_reward, episode_reward = eval_agent(env, agent)
@@ -184,16 +292,30 @@ if Train:
         total_cr_loss.append(epoch_critic_loss)
         if MPI.COMM_WORLD.Get_rank() == 0:
             t_success_rate.append(success_rate)
-            print(f"Epoch:{epoch}| "
-                  f"Running_reward:{running_reward[-1]:.3f}| "
-                  f"EP_reward:{episode_reward:.3f}| "
-                  f"Memory_length:{len(agent.memory)}| "
-                  f"Duration:{time.time() - start_time:.3f}| "
-                  f"Actor_Loss:{actor_loss:.3f}| "
-                  f"Critic_Loss:{critic_loss:.3f}| "
-                  f"Success rate:{success_rate:.3f}| "
-                  f"{to_gb(ram.used):.1f}/{to_gb(ram.total):.1f} GB RAM")
+            print("--------------------------")
+            print("Epoch: ", epoch)
+            # print(running_reward)
+            # print(f"Running_reward:{running_reward.item():.3f}| ")
+            print("EP_reward: ",episode_reward)
+            print("Memory_length: ",len(agent.memory))
+            print("Duration: ",time.time() - start_time)
+            print(f"Actor_Loss: ",actor_loss)
+            print(f"Critic_Loss: ",critic_loss)
+            print(f"Success rate: ",success_rate) # success here checks the end position of object for the episode
+            print(f"{to_gb(ram.used):.1f}/{to_gb(ram.total):.1f} GB RAM")
+            print("--------------------------")
+
+            success_list.append(success_rate)
+            np.save('success_list.npy', np.array(success_list))
+
+            # print(epoch,len(agent.memory), time.time() - start_time, actor_loss, critic_loss)
+            # print(episode_reward)
+            # print(success_rate)
+            # print(f"{to_gb(ram.used):.1f}/{to_gb(ram.total):.1f} GB RAM")
+
             agent.save_weights(ENV_NAME)
+
+
 
     if MPI.COMM_WORLD.Get_rank() == 0:
 
@@ -208,6 +330,30 @@ if Train:
         plt.savefig(f"success_rate_{ENV_NAME}.png")
         plt.show()
 
+
 elif Play_FLAG:
-    player = Play(env, agent, ENV_NAME, max_episode=100)
-    player.evaluate()
+    address_list = [
+        "/Users/qiyangyan/Desktop/TD3+HER/Pre-trained models/VariableFriction-v0_after15epoch_niceProgress.pth"
+        # "/Users/qiyangyan/Desktop/IHM_finger/TD3+HER-withFramework_onlySlide/Pre-trained models/VariableFriction-v1_1_stuck.pth"
+        # "/Users/qiyangyan/Desktop/IHM_finger/TD3+HER-withFramework_onlySlide/Pre-trained models/VariableFriction-v1_1_goodPerformanceFrom8.26Night.pth",
+        # "/Users/qiyangyan/Desktop/IHM_finger/TD3+HER-withFramework_onlySlide/Pre-trained models/VariableFriction-v1_trained_20_epoch.pth",
+        # "/Users/qiyangyan/Desktop/IHM_finger/TD3+HER-withFramework_onlySlide/Pre-trained models/VariableFriction-v1_trained_20_epoch_8.26.pth",
+        # "/Users/qiyangyan/Desktop/IHM_finger/TD3+HER-withFramework_onlySlide/Pre-trained models/VariableFriction-v1_trained_30_epoch.pth",
+        # "/Users/qiyangyan/Desktop/IHM_finger/TD3+HER-withFramework_onlySlide/Pre-trained models/VariableFriction-v1_trained_75_epoch.pth"
+    ]
+
+    for address in address_list:
+        agent.load_weights(address)
+        max_episode = 100
+        total_success_rate = 0
+        for index in range(max_episode):
+            # if index % 20 == 0:
+            print(index)
+            success_rate, _, _ = eval_agent(env, agent)
+            print(success_rate)
+            total_success_rate += success_rate
+        print(f"Success rate:{total_success_rate / 100:.3f}| ")
+
+
+    # player = Play(env, agent, ENV_NAME, max_episode=100)
+    # player.evaluate()

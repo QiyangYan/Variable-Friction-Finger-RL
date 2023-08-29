@@ -147,9 +147,9 @@ class Agent:
                     "goal_normalizer_mean": self.goal_normalizer.mean,
                     "goal_normalizer_std": self.goal_normalizer.std}, f"./Pre-trained models/{env}_1.pth")
 
-    def load_weights(self,env):
+    def load_weights(self,path):
 
-        checkpoint = torch.load(f"./Pre-trained models/{env}_1.pth")
+        checkpoint = torch.load(path)
         actor_state_dict = checkpoint["actor_state_dict"]
         self.actor.load_state_dict(actor_state_dict)
         state_normalizer_mean = checkpoint["state_normalizer_mean"]

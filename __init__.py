@@ -81,7 +81,14 @@ def register_robotics_envs():
             id=f"VariableFriction{suffix}-v0",
             entry_point="gymnasium_robotics.envs.variable_friction.manipulate_block:MujocoHandBlockEnv",
             kwargs=kwargs,
-            max_episode_steps=100,
+            max_episode_steps=50,
+        )
+
+        register(
+            id=f"VariableFriction{suffix}-v1",
+            entry_point="gymnasium_robotics.envs.variable_friction_withFramework.manipulate_block:MujocoHandBlockEnv",
+            kwargs=kwargs,
+            max_episode_steps=50,
         )
 
         # Hand

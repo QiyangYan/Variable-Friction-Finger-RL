@@ -1,0 +1,6 @@
+README.md
+setup.py
+gymnasium_variable_friction.egg-info/PKG-INFO
+gymnasium_variable_friction.egg-info/SOURCES.txt
+gymnasium_variable_friction.egg-info/dependency_links.txt
+gymnasium_variable_friction.egg-info/top_level.txt

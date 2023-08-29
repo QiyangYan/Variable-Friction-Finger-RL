@@ -1,0 +1,48 @@
+Thu Aug 24 01:28:55 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:30:19 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:30:47 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:32:22 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:33:46 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:34:18 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:36:03 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:36:36 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:38:01 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:38:28 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:39:55 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:40:12 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:40:36 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:42:15 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:45:04 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+
+Thu Aug 24 01:45:47 2023
+WARNING: Nan, Inf or huge value in CTRL at ACTUATOR 2. The simulation is unstable. Time = 0.4000.
+

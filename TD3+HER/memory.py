@@ -1,6 +1,8 @@
 import numpy as np
 from copy import deepcopy as dc
 import random
+import torch
+from torch import device
 
 
 class Memory:
@@ -10,6 +12,7 @@ class Memory:
         self.memory_counter = 0
         self.memory_length = 0
         self.env = env
+        self.device = device('cpu')
 
         self.future_p = 1 - (1. / (1 + k_future))
 
@@ -54,6 +57,12 @@ class Memory:
         desired_goals[her_indices] = future_ag
 
         rewards = np.expand_dims(self.env.compute_reward(next_achieved_goals, desired_goals, None), 1)
+
+        states = torch.Tensor(states).to(self.device)
+        actions = torch.Tensor(actions).to(self.device)
+        rewards = torch.Tensor(rewards).to(self.device)
+        next_states = torch.Tensor(next_states).to(self.device)
+        desired_goals = torch.Tensor(desired_goals).to(self.device)
 
         return self.clip_obs(states), actions, rewards, self.clip_obs(next_states), self.clip_obs(desired_goals)
 

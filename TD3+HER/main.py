@@ -15,8 +15,8 @@ import gymnasium.utils.seeding
 
 ENV_NAME = "VariableFriction-v0"
 INTRO = False
-Train = True
-Play_FLAG = False
+Train = False
+Play_FLAG = True
 MAX_EPOCHS = 50
 MAX_CYCLES = 50
 num_updates = 40
@@ -41,7 +41,7 @@ os.environ['OMP_NUM_THREADS'] = '1'
 os.environ['MKL_NUM_THREADS'] = '1'
 os.environ['IN_MPI'] = '1'
 
-env = gym.make(ENV_NAME)
+env = gym.make(ENV_NAME,render_mode="human")
 # env.seed(MPI.COMM_WORLD.Get_rank())
 gymnasium.utils.seeding.np_random(MPI.COMM_WORLD.Get_rank())
 random.seed(MPI.COMM_WORLD.Get_rank())
@@ -60,7 +60,7 @@ agent = Agent(n_states=state_shape,
               tau=tau,
               k_future=k_future,
               env=dc(env))
-agent.load_weights("/Users/qiyangyan/Desktop/TD3+HER/Pre-trained models/VariableFriction-v0_after15epoch_niceProgress.pth")
+agent.load_weights("/Users/qiyangyan/Desktop/TD3+HER/Pre-trained models/VariableFriction-v0_1.pth")
 
 def eval_agent(env_, agent_):
     total_success_rate = []
@@ -333,7 +333,9 @@ if Train:
 
 elif Play_FLAG:
     address_list = [
-        "/Users/qiyangyan/Desktop/TD3+HER/Pre-trained models/VariableFriction-v0_after15epoch_niceProgress.pth"
+        # "/Users/qiyangyan/Desktop/TD3+HER/Pre-trained models/VariableFriction-v0_after46epoch_smallerSuccessRegion.pth"
+        # "/Users/qiyangyan/Desktop/TD3+HER/Pre-trained models/VariableFriction-v0_after15epoch_niceProgress.pth"
+        "/Users/qiyangyan/Desktop/TD3+HER/Pre-trained models/VariableFriction-v0_1.pth"
         # "/Users/qiyangyan/Desktop/IHM_finger/TD3+HER-withFramework_onlySlide/Pre-trained models/VariableFriction-v1_1_stuck.pth"
         # "/Users/qiyangyan/Desktop/IHM_finger/TD3+HER-withFramework_onlySlide/Pre-trained models/VariableFriction-v1_1_goodPerformanceFrom8.26Night.pth",
         # "/Users/qiyangyan/Desktop/IHM_finger/TD3+HER-withFramework_onlySlide/Pre-trained models/VariableFriction-v1_trained_20_epoch.pth",

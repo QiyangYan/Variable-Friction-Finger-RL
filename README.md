@@ -26,9 +26,7 @@ The project utilises the Gymnasium API and employs the MuJoCo physics engine for
 </p>
 
 
-<p align="center">
-  <iframe width="560" height="315" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/blob/10aca205dd60d7a5d87634739dd476a078d3166b/OnlySliding-testVideo.mov" frameborder="0" allowfullscreen></iframe>
-</p>
+https://github.com/QiyangYan/Variable-Friction-Finger-RL/blob/10aca205dd60d7a5d87634739dd476a078d3166b/OnlySliding-testVideo.mov
 
 
 ## Only Sliding Training Success Rate

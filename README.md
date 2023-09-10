@@ -25,6 +25,12 @@ MuJoCo Simulation Screenshot
   <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/0a40eec6-518b-4f9e-b2f9-e57088f07416" alt="Description" width="570">
 </p>
 
+<div align="center">
+  <img src="[your-image-url](https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/0a40eec6-518b-4f9e-b2f9-e57088f07416)" alt="Image Description" width="300">
+  <br>
+  MuJoCo Simulation Env
+</div>
+
 <p align="center">
   <iframe width="560" height="315" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/blob/10aca205dd60d7a5d87634739dd476a078d3166b/OnlySliding-testVideo.mov" frameborder="0" allowfullscreen></iframe>
 </p>

@@ -26,8 +26,9 @@ MuJoCo Simulation Screenshot
   <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/0a40eec6-518b-4f9e-b2f9-e57088f07416" alt="Description" width="570">
 </p>
 
-https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/a9881ce9-6814-44c6-a789-4a6454ac4b73
-
+<p align="center">
+  <iframe width="560" height="315" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/a9881ce9-6814-44c6-a789-4a6454ac4b73" frameborder="0" allowfullscreen></iframe>
+</p>
 
 
 ## Only Sliding Training Success Rate

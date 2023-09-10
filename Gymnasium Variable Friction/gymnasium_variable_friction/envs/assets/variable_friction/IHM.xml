@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mujoco>
+    
+    <compiler angle="radian"
+        meshdir="/Users/qiyangyan/anaconda3/envs/Gym/lib/python3.9/site-packages/gymnasium_robotics/envs/assets/stls/variable_gripper"
+        balanceinertia="true"
+        discardvisual="false"
+        autolimits="true"></compiler>
+    <option solver="PGS" impratio="0.5" cone="elliptic" tolerance="1e-7" noslip_iterations="10000">
+        <flag warmstart="enable"></flag>
+    </option>
+<!--    <statistic meansize="0.0771609" extent="0.313767" center="0.00508997 -0.163156 0.013906"/>-->
+  
+    <include file="shared.xml"></include>
+    
+    <worldbody>
+        <geom name="floor" type="plane" pos="0 0 -0.5" rgba="0.25 0.22 0.22 1" size="2 2 0.125" friction="0"></geom>
+        <body name="floor" pos="0 0 -0.5"></body>
+        <geom name="table" type="box" size=".2 .2 0.25" pos="0 -0.12 -0.275" rgba="0.25 0.22 0.22 1"></geom>
+        <geom name="tableOut" type="box" size=".21 .21 0.22" pos="0 -0.12 -0.25" rgba="1.5 1.5 1.5 0.9"></geom>
+        <geom name="case" type="box" size="0.1 0.07 0.2" pos="0 -0.02 0.1" contype="0" conaffinity="0" group="0" density="0" rgba="2.56 2.56 2.56 0.5" mass="1"></geom>
+
+        
+        <include file="gripper.xml"></include>
+        
+        <body name="object" pos="0 -0.251365 0">
+            <joint name="joint:object" type="free" damping="0.01"></joint>
+            <geom name="object" type="box" size =".015 .015 .025" rgba="1.5 1.5 1.5 1" contype="1" conaffinity="1" friction="1" mass="0.2" group="0"></geom>
+            <site name="object:center" pos="0 0 0" rgba="1 0 0 1" size="0.005 0.005 0.005"></site>
+            <geom name="object:center1" type="cylinder" size="0.002 .03" condim="4" group="0" contype="0" conaffinity="0" rgba="0.5 0.5 0.7 1"></geom>
+        </body>
+        <body name="target" pos="0 0 0">
+            <joint name="joint:target" type="free" damping="0.01"></joint>
+<!--            <geom name="target" type="box" size=".015 .015 .025" condim="4" group="0" contype="0" conaffinity="0"></geom>-->
+            <geom name="target" type="cylinder" size="0.015 .027" condim="4" group="0" contype="0" conaffinity="0" rgba="0 0 1 0.5"></geom>
+            <geom name="target1" type="cylinder" size="0.002 .03" condim="4" group="0" contype="0" conaffinity="0" rgba="1 0 0 1"></geom>
+            <site name="target:center" pos="0 0 0" rgba="1 0 0 0" size="0.005 0.005 0.005"></site>
+        </body>
+<!--        <body name="check" pos="0.037012 -0.1845 0.002">-->
+<!--            <geom name="locationcheck:center1" type="cylinder" size="0.002 .027" condim="4" group="0" contype="0" conaffinity="0" rgba="0.5 0.5 0.7 1"></geom>-->
+<!--        </body>-->
+<!--        <body name="check2" pos="-0.037488 -0.1845 0.002">-->
+<!--            <geom name="locationcheck:center2" type="cylinder" size="0.002 .027" condim="4" group="0" contype="0" conaffinity="0" rgba="0.5 0.5 0.7 1"></geom>-->
+<!--        </body>-->
+        
+<!--        <body name="check3" pos="0.037012 -0.315 0.002">-->
+<!--            <geom name="locationcheck:center3" type="cylinder" size="0.002 .027" condim="4" group="0" contype="0" conaffinity="0" rgba="0.5 0.5 0.7 1"></geom>-->
+<!--        </body>-->
+
+<!--        <body name="check4" pos="0.037012 -0.238 0.002">-->
+<!--            <geom name="locationcheck:center4" type="cylinder" size="0.002 .027" condim="4" group="0" contype="0" conaffinity="0" rgba="0.5 0.5 0.7 1"></geom>-->
+<!--        </body>-->
+
+<!--        <body name="get_radisu_limit" pos="0.037012 -0.32 0.002">-->
+<!--            <geom name="locationcheck:center4" type="cylinder" size="0.002 .027" condim="4" group="0" contype="0" conaffinity="0" rgba="0.5 0.5 0.7 1"></geom>-->
+<!--        </body>-->
+
+        
+        <light directional="true" diffuse="0.3 0.3 0.3" specular="0.3 0.3 0.3" castshadow="true" pos="0.1 0.1 0.1" dir="0.2 0.1 -0.1" ></light>
+    </worldbody>
+</mujoco>

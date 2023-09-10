@@ -1,7 +1,6 @@
 # noqa: D104
 from gymnasium.envs.registration import register
 
-import gymnasium_variable_friction as gymnasium_robotics
 from gymnasium_robotics.core import GoalEnv
 from gymnasium_robotics.envs.maze import maps
 from gymnasium_robotics.envs.multiagent_mujoco import mamujoco_v0
@@ -82,7 +81,7 @@ def register_robotics_envs():
             id=f"VariableFriction{suffix}-v0",
             entry_point="gymnasium_robotics.envs.variable_friction.manipulate_block:MujocoHandBlockEnv",
             kwargs=kwargs,
-            max_episode_steps=100,
+            max_episode_steps=50,
         )
 
         register(
@@ -90,6 +89,13 @@ def register_robotics_envs():
             entry_point="gymnasium_robotics.envs.variable_friction_withFramework.manipulate_block:MujocoHandBlockEnv",
             kwargs=kwargs,
             max_episode_steps=50,
+        )
+
+        register(
+            id=f"VariableFriction{suffix}-v2",
+            entry_point="gymnasium_robotics.envs.variable_friction_completeManip.manipulate_block:MujocoHandBlockEnv",
+            kwargs=kwargs,
+            max_episode_steps=10,
         )
 
         # Hand

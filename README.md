@@ -1,14 +1,13 @@
 # Variable-Friction-Finger-Model-free-RL
 
 ## Table of Contents
-
-### Introduction
-### MuJoCo Simulation
-### Only Sliding Training Success Rate
-### Installation and Setup
-### Usage
-### Dependencies
-### Contributions and Licensing
+- [Introduction](#introduction)
+- [MuJoCo Simulation](#mujoco-simulation)
+- [Only Sliding Training Success Rate](#only-sliding-training-success-rate)
+- [Installation and Setup](#installation-and-setup)
+- [Usage](#usage)
+- [Dependencies](#dependencies)
+- [Contributions and Licensing](#contributions-and-licensing)
 
 
 

@@ -14,30 +14,32 @@
 ## Introduction
 Welcome to the repository for our project: Model-Free Gripper Control for Multi-Shape Objects using Reinforcement Learning. This project addresses the limitations of existing algorithms that control in a model-based manner. Leveraging reinforcement learning, our approach achieves multi-shape control without relying on pre-existing models, enhancing the gripper's versatility and adaptability.
 
-The project utilises the Gymnasium API and employs the MuJoCo physics engine for simulations. Our work draws inspiration from the Gymnasium Robotics framework.
+The project utilises the Gymnasium API and employs the MuJoCo physics engine for simulations and trained purely on CPU. Our work draws inspiration from the Gymnasium Robotics framework.
 
 
 
-## MuJoCo Simulation
-MuJoCo Simulation Screenshot
-
+## MuJoCo Simulation Env
 <p align="center">
-  <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/0a40eec6-518b-4f9e-b2f9-e57088f07416" alt="Description" width="570">
+  <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/0a40eec6-518b-4f9e-b2f9-e57088f07416" alt="Description" width="500">
+  <br>
+  MuJoCo Simulation Env
 </p>
 
-<p align="center">
-  <iframe width="560" height="315" src=" https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/a9881ce9-6814-44c6-a789-4a6454ac4b73 " frameborder="0" allowfullscreen></iframe>
-</p>
+
+## Only Sliding Training Result Video
+
+
+https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/b4bb00a4-3750-4ca2-85af-203ac4f5181d
 
 
 ## Only Sliding Training Success Rate
 Due to computational constraints, I trained only a few epochs to assess the improvement from training. The graph depicts a promising increase in success rate. Interested users are encouraged to extend the training. I will finalize the trainings once I have access to a virtual machine.
 
-success_rate
-
-
-![success_rate](https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/cfa36bd0-937b-4663-97f7-0692fa50e07f)
-
+<p align="center">
+  <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/cfa36bd0-937b-4663-97f7-0692fa50e07f" alt="Description" width="500">
+  <br>
+  Only Sliding Training Success Rate
+</p>
 
 
 ## Installation and Setup

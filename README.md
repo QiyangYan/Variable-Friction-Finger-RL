@@ -14,7 +14,7 @@
 ## Introduction
 Welcome to the repository for our project: Model-Free Gripper Control for Multi-Shape Objects using Reinforcement Learning. This project addresses the limitations of existing algorithms that control in a model-based manner. Leveraging reinforcement learning, our approach achieves multi-shape control without relying on pre-existing models, enhancing the gripper's versatility and adaptability.
 
-The project utilises the Gymnasium API and employs the MuJoCo physics engine for simulations. Our work draws inspiration from the Gymnasium Robotics framework.
+The project utilises the Gymnasium API and employs the MuJoCo physics engine for simulations and trained purely on CPU. Our work draws inspiration from the Gymnasium Robotics framework.
 
 
 
@@ -28,7 +28,7 @@ The project utilises the Gymnasium API and employs the MuJoCo physics engine for
 
 ## Only Sliding Training Result Video
 
-Uploading OnlySliding-testVideo.mov…
+https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/b4bb00a4-3750-4ca2-85af-203ac4f5181d
 
 
 ## Only Sliding Training Success Rate

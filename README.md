@@ -27,7 +27,7 @@ MuJoCo Simulation Screenshot
 </p>
 
 <p align="center">
-  <iframe width="560" height="315" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/a9881ce9-6814-44c6-a789-4a6454ac4b73" frameborder="0" allowfullscreen></iframe>
+  <iframe width="560" height="315" src=" https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/a9881ce9-6814-44c6-a789-4a6454ac4b73 " frameborder="0" allowfullscreen></iframe>
 </p>
 
 

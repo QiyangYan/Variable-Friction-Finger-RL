@@ -30,7 +30,9 @@ https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/a9881ce
 
 ## Only Sliding Training Success Rate
 Due to computational constraints, I trained only a few epochs to assess the improvement from training. The graph depicts a promising increase in success rate. Interested users are encouraged to extend the training. I will finalize the trainings once I have access to a virtual machine.
+
 success_rate
+
 ![success_rate](https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/cfa36bd0-937b-4663-97f7-0692fa50e07f)
 
 

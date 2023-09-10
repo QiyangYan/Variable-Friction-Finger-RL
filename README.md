@@ -18,7 +18,7 @@ The project utilises the Gymnasium API and employs the MuJoCo physics engine for
 
 
 
-## MuJoCo Simulation
+## MuJoCo Simulation Env
 <p align="center">
   <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/0a40eec6-518b-4f9e-b2f9-e57088f07416" alt="Description" width="500">
   <br>
@@ -26,17 +26,19 @@ The project utilises the Gymnasium API and employs the MuJoCo physics engine for
 </p>
 
 
-https://github.com/QiyangYan/Variable-Friction-Finger-RL/blob/10aca205dd60d7a5d87634739dd476a078d3166b/OnlySliding-testVideo.mov
+## Only Sliding Training Result Video
+
+Uploading OnlySliding-testVideo.mov…
 
 
 ## Only Sliding Training Success Rate
 Due to computational constraints, I trained only a few epochs to assess the improvement from training. The graph depicts a promising increase in success rate. Interested users are encouraged to extend the training. I will finalize the trainings once I have access to a virtual machine.
 
-success_rate
-
-
-![success_rate](https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/cfa36bd0-937b-4663-97f7-0692fa50e07f)
-
+<p align="center">
+  <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/cfa36bd0-937b-4663-97f7-0692fa50e07f" alt="Description" width="500">
+  <br>
+  Only Sliding Training Success Rate
+</p>
 
 
 ## Installation and Setup

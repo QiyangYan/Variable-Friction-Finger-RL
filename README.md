@@ -7,4 +7,6 @@ The project is built upon the Gymnasium API and employs the MuJoCo physics engin
 
 
 ## MuJoCo Simulation
-<img width="503" alt="Screenshot 2023-08-14 at 01 02 31" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/811dc1f7-55aa-402f-a09a-09b63cbbbfcc">
+<img width="570" alt="Screenshot 2023-09-10 at 22 46 41" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/0a40eec6-518b-4f9e-b2f9-e57088f07416">
+https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/a9881ce9-6814-44c6-a789-4a6454ac4b73
+

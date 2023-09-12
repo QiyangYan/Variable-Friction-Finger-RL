@@ -19,7 +19,7 @@ The project utilises the Gymnasium API and employs the MuJoCo physics engine for
 
 
 ## MuJoCo Simulation Env
-More detailed environment description could be found in env folder
+More detailed environment description could be found in [env folder](https://github.com/QiyangYan/Variable-Friction-Finger-RL/tree/d7c8c5fd4040c6a2accb320689bcc0b9869805e3/Gymnasium%20Variable%20Friction)
 
 <p align="center">
   <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/0a40eec6-518b-4f9e-b2f9-e57088f07416" alt="Description" width="500">

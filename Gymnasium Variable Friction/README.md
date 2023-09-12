@@ -15,7 +15,7 @@ The action space is a `Box(-1, 1, (2,), float32)`. The first control action is t
 ## Observation Space
 The observation is a goal-aware observation space. It consists of a dictionary with information about the robot’s joint and block states, as well as information about the goal. The dictionary consists of the following 3 keys:
 
-`observation`: its value is an `ndarray` of shape `(61,)`. It consists of kinematic information of the block object and finger joints. The elements of the array correspond to the following:
+* `observation`: its value is an `ndarray` of shape `(22,)`. It consists of kinematic information of the block object and finger joints. The elements of the array correspond to the following:
 
 | Num | Observation                                                       | Min  | Max  | Joint Name (in corresponding XML file) | Joint Type | Unit                     |
 |-----|-------------------------------------------------------------------|------|------|----------------------------------------|------------|--------------------------|

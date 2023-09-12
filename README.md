@@ -40,7 +40,8 @@ More detailed environment description could be found in [env folder](https://git
 ## Only Sliding Training Result Video
 
 
-https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/b4bb00a4-3750-4ca2-85af-203ac4f5181d
+https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/f1124401-bde0-4848-a911-f7c36ea950ab
+
 
 
 ## Only Sliding Training Success Rate

@@ -1,4 +1,4 @@
-# Variable-Friction-Finger-Model-free-RL
+# Model-Free Gripper Control for Multi-Shape Objects using Reinforcement Learning
 
 ## Table of Contents
 - [Introduction](#introduction)

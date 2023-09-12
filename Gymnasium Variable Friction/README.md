@@ -60,7 +60,7 @@ The observation is a goal-aware observation space. It consists of a dictionary w
 | 8   | Goal radi between right-contact-point and right motor                                                                                 | -Inf   | Inf    | object:joint                           | free       | -            |
 
 
-* `achieved_goal`: this key represents the current state of the block, as if it would have achieved a goal. This is useful for goal-orientated learning algorithms such as those that use **Hindsight Experience Replay (HER)**. The value is an ndarray with shape `(9,)`. The elements of the array are the following:
+* `achieved_goal`: this key represents the current state of the block, as if it would have achieved a goal. This is useful for goal-orientated learning algorithms such as those that use **Hindsight Experience Replay (HER)**. The value is an `ndarray` with shape `(9,)`. The elements of the array are the following:
 
 
 | Num | Observation                                                                                                                           | Min    | Max    | Joint Name (in corresponding XML file) | Joint Type | Unit         |
@@ -76,9 +76,20 @@ The observation is a goal-aware observation space. It consists of a dictionary w
 | 8   | Goal radi between right-contact-point and right motor                                                                                 | -Inf   | Inf    | object:joint                           | free       | -            |
 
 
-
-
 ## Rewards
+
+The reward can be initialized as `sparse` or `dense`:
+
+* sparse: the returned reward can have two values: `-1` if the block hasn’t reached its final target pose, and `0` if the block is in its final target pose. The block is considered to have reached its final goal if the theta angle difference (theta angle of the 3D axis angle representation is less than 0.1 and if the Euclidean distance to the target position is also less than 0.01 m.
+* dense: the returned reward is the negative summation of the Euclidean distance to the block’s target and the theta angle difference to the target orientation. The positional distance is multiplied by a factor of 10 to avoid being dominated by the rotational difference.
+
+To initialize this environment with one of the mentioned reward functions the type of reward must be specified in the id string when the environment is initialized. For `sparse` reward the id is the default of the environment, `VariableFriction-v2`. However, for `dense` reward the id must be modified to `VariableFrictionDense-v2` and initialized as follows:
+
+```python
+import gymnasium as gym
+
+env = gym.make('VariableFriction-v2')
+
 
 ## Starting State
 

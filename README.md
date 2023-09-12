@@ -31,10 +31,11 @@ The project utilises the [Gymnasium API](https://gymnasium.farama.org) and emplo
 More detailed environment description could be found in [env folder](https://github.com/QiyangYan/Variable-Friction-Finger-RL/tree/d7c8c5fd4040c6a2accb320689bcc0b9869805e3/Gymnasium%20Variable%20Friction)
 
 <p align="center">
-  <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/0e6f0025-287c-4112-b23e-bda8cf6f966d" alt="Description" width="500">
+  <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/77284c8d-a8d7-46dd-aa4c-ed08e54e5a95" alt="Description" width="500">
   <br>
   MuJoCo Simulation Env
 </p>
+
 
 ## Only Sliding Training Result Video
 

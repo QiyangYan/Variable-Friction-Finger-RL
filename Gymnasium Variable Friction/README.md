@@ -43,6 +43,19 @@ The observation is a goal-aware observation space. It consists of a dictionary w
 | 21  | Achieved radi between left-contact-point and left motor          | -Inf | Inf  | object:joint                           | free       | -                        |
 | 22  | Achieved radi between right-contact-point and right motor        | -Inf | Inf  | object:joint                           | free       | -                        |
 
+desired_goal: this key represents the final goal to be achieved. In this environment it is a 7-dimensional ndarray, (7,), that consists of the pose information of the block. The elements of the array are the following:
+
+ | Num | Observation                                                                                                                           | Min    | Max    | Joint Name (in corresponding XML file) | Joint Type | Unit         |
+    |-----|---------------------------------------------------------------------------------------------------------------------------------------|--------|--------|----------------------------------------|------------|--------------|
+    | 0   | Target x coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
+    | 1   | Target y coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
+    | 2   | Target z coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
+    | 3   | Target w component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+    | 4   | Target x component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+    | 5   | Target y component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+    | 6   | Target z component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+    | 7  | Goal radi between left-contact-point and left motor            | -Inf   | Inf    | object:joint                           | free     | -                        |
+    | 8  | Goal radi between right-contact-point and right motor            | -Inf   | Inf    | object:joint                           | free     | -                        |
 
 
 ## Rewards

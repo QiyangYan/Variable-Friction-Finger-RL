@@ -116,6 +116,6 @@ The same applies for the other environment variations.
 
 
 ## Version History
-v2: the environment is designed for complete IHM including rotation and sliding.
-v1: the environment is designed under a predefined framework that reduce the exploration range.
-v0: the environment is designed only for sliding.
+* v2: the environment is designed for complete IHM including rotation and sliding.
+* v1: the environment is designed under a predefined framework that reduce the exploration range.
+* v0: the environment is designed only for sliding.

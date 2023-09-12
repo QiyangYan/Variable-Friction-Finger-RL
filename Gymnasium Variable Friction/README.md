@@ -15,7 +15,7 @@ The action space is a `Box(-1, 1, (2,), float32)`. The first control action is t
 ## Observation Space
 The observation is a goal-aware observation space. It consists of a dictionary with information about the robot’s joint and block states, as well as information about the goal. The dictionary consists of the following 3 keys:
 
-* `observation`: its value is an `ndarray` of shape `(22,)`. It consists of kinematic information of the block object and finger joints. The elements of the array correspond to the following:
+* `observation`: its value is an `ndarray` of shape `(23,)`. It consists of kinematic information of the block object and finger joints. The elements of the array correspond to the following:
 
 | Num | Observation                                                       | Min  | Max  | Joint Name (in corresponding XML file) | Joint Type | Unit                     |
 |-----|-------------------------------------------------------------------|------|------|----------------------------------------|------------|--------------------------|
@@ -58,6 +58,23 @@ The observation is a goal-aware observation space. It consists of a dictionary w
 | 6   | Target z component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
 | 7   | Goal radi between left-contact-point and left motor                                                                                   | -Inf   | Inf    | object:joint                           | free       | -            |
 | 8   | Goal radi between right-contact-point and right motor                                                                                 | -Inf   | Inf    | object:joint                           | free       | -            |
+
+
+* `achieved_goal`: this key represents the current state of the block, as if it would have achieved a goal. This is useful for goal-orientated learning algorithms such as those that use **Hindsight Experience Replay (HER)**. The value is an ndarray with shape `(9,)`. The elements of the array are the following:
+
+
+| Num | Observation                                                                                                                           | Min    | Max    | Joint Name (in corresponding XML file) | Joint Type | Unit         |
+|-----|---------------------------------------------------------------------------------------------------------------------------------------|--------|--------|----------------------------------------|------------|--------------|
+| 0   | Target x coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
+| 1   | Target y coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
+| 2   | Target z coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
+| 3   | Target w component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+| 4   | Target x component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+| 5   | Target y component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+| 6   | Target z component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+| 7   | Goal radi between left-contact-point and left motor                                                                                   | -Inf   | Inf    | object:joint                           | free       | -            |
+| 8   | Goal radi between right-contact-point and right motor                                                                                 | -Inf   | Inf    | object:joint                           | free       | -            |
+
 
 
 

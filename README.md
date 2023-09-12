@@ -16,7 +16,15 @@ Welcome to the repository for our project: Model-Free Gripper Control for Multi-
 
 The project utilises the [Gymnasium API](https://gymnasium.farama.org) and employs the [MuJoCo](https://mujoco.readthedocs.io/en/stable/overview.html) physics engine for simulations and being trained purely on CPU. Our work also draws inspiration from the [Gymnasium Robotics](https://robotics.farama.org) framework.
 
+Published papers on Variable Friction Gripper:
 
+
+Previous works on Variable Friction Gripper:
+* [WIHM Variable Friction Finger with Ur5e and Realsense](https://github.com/QiyangYan/WIHM-Variable-Friction-Finger-with-Ur5e-and-Realsense)
+* [Variable friction finger](https://github.com/gokul-gokz/Variable_friction_finger)
+* [Friction finger gripper RL](https://github.com/gokul-gokz/Friction_finger_gripper_RL)
+* [Dextrous In-Hand-Manipulation WPI-MER-LAB](https://github.com/kgnandanwar/Dextrous-In-Hand-Manipulation-WPI-MER-LAB-)
+* [WIHM Variable Friction](https://github.com/asahin1/wihm-variable-friction)
 
 ## MuJoCo Simulation Env
 More detailed environment description could be found in [env folder](https://github.com/QiyangYan/Variable-Friction-Finger-RL/tree/d7c8c5fd4040c6a2accb320689bcc0b9869805e3/Gymnasium%20Variable%20Friction)

@@ -89,10 +89,33 @@ To initialize this environment with one of the mentioned reward functions the ty
 import gymnasium as gym
 
 env = gym.make('VariableFriction-v2')
-
+```
 
 ## Starting State
+When the environment is reset the joints of the hand are initialized to their resting position with a 0 displacement. The blocks position and orientation are randomly selected. The initial position is set to (x,y,z)=(, , ) and an offset is added to each coordinate sampled from a normal distribution with 0 mean and 0.005 standard deviation. While the initial orientation is fixed to (w,x,y,z)=(1,0,0,0) to add an angle offset sampled from a uniform distribution with range '[-pi/2, pi/2]'.
+
+The target pose of the block is obtained by adding a random offset to the initial block pose. For the position the offset is sampled from a uniform distribution with range `[(x_min, x_max), (y_min,y_max), (z_min, z_max)] = [(, ), (, ), (, )]`. The orientation offset is sampled from a uniform distribution with range `[-pi/2,pi/2]` and added to one of the Euler axis depending on the environment variation.
 
 ## Episode End
+The episode will be `truncated` when 
+* the duration reaches a total of max_episode_steps which by default is set to 50 timesteps.
+* the block moves out of predefined operation range
+* the block got stuck during the operation
+The episode is never terminated since the task is continuing with infinite horizon.
 
 ## Arguments
+To increase/decrease the maximum number of timesteps before the episode is truncated the max_episode_steps argument can be set at initialization. The default value is 10. For example, to increase the total number of timesteps to 50 make the environment as follows:
+
+```python
+import gymnasium as gym
+
+env = gym.make('HandManipulateBlock-v1', max_episode_steps=50)
+```
+
+The same applies for the other environment variations.
+
+
+## Version History
+v2: the environment is designed for complete IHM including rotation and sliding.
+v1: the environment is designed under a predefined framework that reduce the exploration range.
+v0: the environment is designed only for sliding.

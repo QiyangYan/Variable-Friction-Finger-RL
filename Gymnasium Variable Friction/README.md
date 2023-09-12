@@ -45,7 +45,8 @@ The observation is a goal-aware observation space. It consists of a dictionary w
 
 desired_goal: this key represents the final goal to be achieved. In this environment it is a 7-dimensional ndarray, (7,), that consists of the pose information of the block. The elements of the array are the following:
 
- | Num | Observation                                                                                                                           | Min    | Max    | Joint Name (in corresponding XML file) | Joint Type | Unit         |
+
+ | Num | Observation       | Min    | Max    | Joint Name (in corresponding XML file) | Joint Type | Unit         |
     |-----|---------------------------------------------------------------------------------------------------------------------------------------|--------|--------|----------------------------------------|------------|--------------|
     | 0   | Target x coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
     | 1   | Target y coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |

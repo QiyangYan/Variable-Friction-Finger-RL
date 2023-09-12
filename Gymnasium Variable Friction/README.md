@@ -9,7 +9,7 @@ The action space is a `Box(-1, 1, (2,), float32)`. The first control action is t
 | Num | Action                                              | Control Min | Control Max | Angle Min    | Angle Max   | Name (in corresponding XML file) | Joint | Unit        |
 | --- | ----------------------------------------------------| ----------- | ----------- | ------------ | ----------  |--------------------------------- | ----- | ----------- |
 | 0   | Angular position of the left finger                 | -1          | 1           | -0.489 (rad) | 0.14 (rad)  | robot0:A_WRJ1                    | hinge | angle (rad) |
-| 1   | Friction States                                     | -1          | 1           | -1.571 (rad) | 1.571 (rad) | robot0:A_FFJ3 & robot0:A_FFJ4    | hinge | angle (rad) |
+| 1   | Friction States                                     | -1          | 1           | -1.571 (rad) | 1.571 (rad) | joint:leftInsert & joint:rightInsert    | hinge | angle (rad) |
 
 
 ## Observation Space

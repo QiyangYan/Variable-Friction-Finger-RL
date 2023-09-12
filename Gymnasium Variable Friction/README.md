@@ -44,34 +44,20 @@ The observation is a goal-aware observation space. It consists of a dictionary w
 | 22  | Achieved radi between right-contact-point and right motor        | -Inf | Inf  | object:joint                           | free       | -                        |
 
 
-* desired_goal: this key represents the final goal to be achieved. In this environment it is a 7-dimensional ndarray, (7,), that consists of the pose information of the block. The elements of the array are the following:
+* `desired_goal`: this key represents the final goal to be achieved. In this environment, it is a 7-dimensional `ndarray`, `(9,)`, that consists of the pose information of the block. The elements of the array are the following:
 
 
-| Num | Observation                                                       | Min  | Max  | Joint Name (in corresponding XML file) | Joint Type | Unit                     |
-|-----|-------------------------------------------------------------------|------|------|----------------------------------------|------------|--------------------------|
-| 0   | Angular position of the right finger joint                       | -Inf | Inf  | robot0:WRJ1                            | hinge      | angle (rad)              |
-| 1   | Angular position of the left finger joint                        | -Inf | Inf  | robot0:WRJ0                            | hinge      | angle (rad)              |
-| 2   | Angular velocity of the right finger joint                       | -Inf | Inf  | robot0:FFJ3                            | hinge      | angle (rad)              |
-| 3   | Angular velocity of the left finger joint                        | -Inf | Inf  | robot0:FFJ2                            | hinge      | angle (rad)              |
-| 4   | Angular position of the right finger friction servo              | -Inf | Inf  | robot0:WRJ1                            | hinge      | angle (rad)              |
-| 5   | Angular position of the left finger friction servo               | -Inf | Inf  | robot0:WRJ0                            | hinge      | angle (rad)              |
-| 6   | Angular velocity of the right finger friction servo              | -Inf | Inf  | robot0:FFJ3                            | hinge      | angle (rad)              |
-| 7   | Angular velocity of the left finger friction servo               | -Inf | Inf  | robot0:FFJ2                            | hinge      | angle (rad)              |
-| 8   | Linear velocity of the block in x direction                      | -Inf | Inf  | object:joint                           | free       | velocity (m/s)           |
-| 9   | Linear velocity of the block in y direction                      | -Inf | Inf  | object:joint                           | free       | velocity (m/s)           |
-| 10  | Linear velocity of the block in z direction                      | -Inf | Inf  | object:joint                           | free       | velocity (m/s)           |
-| 11  | Angular velocity of the block in x axis                          | -Inf | Inf  | object:joint                           | free       | angular velocity (rad/s) |
-| 12  | Angular velocity of the block in y axis                          | -Inf | Inf  | object:joint                           | free       | angular velocity (rad/s) |
-| 13  | Angular velocity of the block in z axis                          | -Inf | Inf  | object:joint                           | free       | angular velocity (rad/s) |
-| 14  | Position of the block in the x coordinate                        | -Inf | Inf  | object:joint                           | free       | position (m)             |
-| 15  | Position of the block in the y coordinate                        | -Inf | Inf  | object:joint                           | free       | position (m)             |
-| 16  | Position of the block in the z coordinate                        | -Inf | Inf  | object:joint                           | free       | position (m)             |
-| 17  | w component of the quaternion orientation of the block           | -Inf | Inf  | object:joint                           | free       | -                        |
-| 18  | x component of the quaternion orientation of the block           | -Inf | Inf  | object:joint                           | free       | -                        |
-| 19  | y component of the quaternion orientation of the block           | -Inf | Inf  | object:joint                           | free       | -                        |
-| 20  | z component of the quaternion orientation of the block           | -Inf | Inf  | object:joint                           | free       | -                        |
-| 21  | Achieved radi between left-contact-point and left motor          | -Inf | Inf  | object:joint                           | free       | -                        |
-| 22  | Achieved radi between right-contact-point and right motor        | -Inf | Inf  | object:joint                           | free       | -                        |
+| Num | Observation                                                                                                                           | Min    | Max    | Joint Name (in corresponding XML file) | Joint Type | Unit         |
+|-----|---------------------------------------------------------------------------------------------------------------------------------------|--------|--------|----------------------------------------|------------|--------------|
+| 0   | Target x coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
+| 1   | Target y coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
+| 2   | Target z coordinate of the block                                                                                                      | -Inf   | Inf    | target:joint                           | free       | position (m) |
+| 3   | Target w component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+| 4   | Target x component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+| 5   | Target y component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+| 6   | Target z component of the quaternion orientation of the block                                                                         | -Inf   | Inf    | target:joint                           | free       | -            |
+| 7   | Goal radi between left-contact-point and left motor                                                                                   | -Inf   | Inf    | object:joint                           | free       | -            |
+| 8   | Goal radi between right-contact-point and right motor                                                                                 | -Inf   | Inf    | object:joint                           | free       | -            |
 
 
 

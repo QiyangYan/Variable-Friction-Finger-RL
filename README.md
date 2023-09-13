@@ -1,4 +1,4 @@
-# Model-Free Gripper Control for Multi-Shape Objects using Reinforcement Learning
+# Learning In-Hand-Manipulation policy for Multi-Shape Objects on Variable Friction Gripper
 
 ## Table of Contents
 - [Introduction](#introduction)

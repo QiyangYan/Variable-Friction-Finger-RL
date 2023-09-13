@@ -28,7 +28,7 @@ The project utilises the [Gymnasium API](https://gymnasium.farama.org) and emplo
 * [WIHM Variable Friction](https://github.com/asahin1/wihm-variable-friction)
 
 ## MuJoCo Simulation Env
-More detailed environment description could be found in [env folder](https://github.com/QiyangYan/Variable-Friction-Finger-RL/tree/d7c8c5fd4040c6a2accb320689bcc0b9869805e3/Gymnasium%20Variable%20Friction), including:
+More detailed environment description could be found in [env folder](https://github.com/QiyangYan/Variable-Friction-Finger-RL/tree/d7c8c5fd4040c6a2accb320689bcc0b9869805e3/Gymnasium%20Variable%20Friction) (Incomplete version, comment if you have any question), including:
 * Action space
 * Observation space
 * Reward

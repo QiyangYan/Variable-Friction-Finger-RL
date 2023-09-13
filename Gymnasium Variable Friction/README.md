@@ -93,7 +93,10 @@ The reward can be initialized as `sparse` or `dense`:
     * The desired radius (r_left_goal for the left finger and r_right_goal for the right finger) from a contact point on the object to the center of the corresponding finger motor.
     * The actual achieved radius (r_left_achieved for the left and r_right_achieved for the right).
   * the formula for the dense reward is:
+
+```python
 r_diff = - abs(r_left_goal - r_left_achieved) - abs(r_right_goal - r_right_achieved)
+```
 
 To initialize this environment with one of the mentioned reward functions the type of reward must be specified in the id string when the environment is initialized. For `sparse` reward the id is the default of the environment, `VariableFriction-v2`. However, for `dense` reward the id must be modified to `VariableFrictionDense-v2` and initialized as follows:
 

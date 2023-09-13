@@ -80,7 +80,7 @@ The observation is a goal-aware observation space. It consists of a dictionary w
 
 The reward can be initialized as `sparse` or `dense`:
 
-* 'sparse':
+* `sparse`:
   * The returned reward can have two values:
     * -1 if the block hasn’t reached its final target pose.
     * 0 if the block is in its final target pose.

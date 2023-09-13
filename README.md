@@ -12,7 +12,7 @@
 
 
 ## Introduction
-Welcome to the repository for our project: Learning In-Hand-Manipulation policy for Multi-Shape Objects on Variable Friction Gripper. This project addresses the limitations of existing algorithms that control in a model-based manner. Leveraging reinforcement learning, our approach achieves multi-shape control without relying on pre-existing models, enhancing the gripper's versatility and adaptability.
+Welcome to the repository for our project: **Learning In-Hand-Manipulation policy for Multi-Shape Objects on Variable Friction Gripper**. This project addresses the limitations of existing algorithms that control in a model-based manner. Leveraging reinforcement learning, our approach achieves multi-shape control without relying on pre-existing models, enhancing the gripper's versatility and adaptability.
 
 The project utilises the [Gymnasium API](https://gymnasium.farama.org) and employs the [MuJoCo](https://mujoco.readthedocs.io/en/stable/overview.html) physics engine for simulations and being trained purely on CPU. Our work also draws inspiration from the [Gymnasium Robotics](https://robotics.farama.org) framework.
 

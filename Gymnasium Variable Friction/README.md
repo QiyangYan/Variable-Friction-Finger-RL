@@ -80,8 +80,20 @@ The observation is a goal-aware observation space. It consists of a dictionary w
 
 The reward can be initialized as `sparse` or `dense`:
 
-* sparse: the returned reward can have two values: `-1` if the block hasn’t reached its final target pose, and `0` if the block is in its final target pose. The block is considered to have reached its final goal if the theta angle difference (theta angle of the 3D axis angle representation is less than 0.1 and if the Euclidean distance to the target position is also less than 0.01 m.
-* dense: the returned reward is the negative summation of the Euclidean distance to the block’s target and the theta angle difference to the target orientation. The positional distance is multiplied by a factor of 10 to avoid being dominated by the rotational difference.
+* 'sparse':
+  * The returned reward can have two values:
+    * -1 if the block hasn’t reached its final target pose.
+    * 0 if the block is in its final target pose.
+  * The block is considered to have reached its final goal if:
+    * The theta angle difference (theta angle of the 3D axis angle representation) is less than 0.1.
+    * The Euclidean distance to the target position is also less than 0.01 m.
+
+* `dense`:
+  * The returned reward is the negative summation of the radial difference between:
+    * The desired radius (r_left_goal for the left finger and r_right_goal for the right finger) from a contact point on the object to the center of the corresponding finger motor.
+    * The actual achieved radius (r_left_achieved for the left and r_right_achieved for the right).
+  * the formula for the dense reward is:
+r_diff = - abs(r_left_goal - r_left_achieved) - abs(r_right_goal - r_right_achieved)
 
 To initialize this environment with one of the mentioned reward functions the type of reward must be specified in the id string when the environment is initialized. For `sparse` reward the id is the default of the environment, `VariableFriction-v2`. However, for `dense` reward the id must be modified to `VariableFrictionDense-v2` and initialized as follows:
 

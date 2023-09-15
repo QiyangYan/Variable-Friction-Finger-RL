@@ -2,7 +2,7 @@
 
 ## Table of Contents
 - [Introduction](#introduction)
-- [MuJoCo Simulation](#mujoco-simulation)
+- [MuJoCo Simulation Env](#mujoco-simulation-env)
 - [Only Sliding Training Success Rate](#only-sliding-training-success-rate)
 - [Installation and Setup](#installation-and-setup)
 - [Usage](#usage)

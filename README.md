@@ -34,7 +34,7 @@ The project utilises the [Gymnasium API](https://gymnasium.farama.org) and emplo
 * [WIHM Variable Friction](https://github.com/asahin1/wihm-variable-friction)
 
 ## MuJoCo Simulation Env
-More detailed environment description could be found in [env folder](https://github.com/QiyangYan/Variable-Friction-Finger-RL/tree/d7c8c5fd4040c6a2accb320689bcc0b9869805e3/Gymnasium%20Variable%20Friction) **(Incomplete version, comment if you have any question)**, including:
+A detailed environment description can be found in [env folder](https://github.com/QiyangYan/Variable-Friction-Finger-RL/tree/d7c8c5fd4040c6a2accb320689bcc0b9869805e3/Gymnasium%20Variable%20Friction) **(Incomplete version, comment if you have any question)**, including:
 * Action space
 * Observation space
 * Reward
@@ -44,10 +44,10 @@ More detailed environment description could be found in [env folder](https://git
 
 For this section, I will just briefly explain the design of the **potential-based reward function** in addition to the **sparse reward**.
 The potential is the negative summation of the radial difference between:
-  * The desired radius (`r_left_goal` for the left finger and `r_right_goal` for the right finger) from a contact point on the object to the center of the corresponding finger motor.
+  * The desired radius (`r_left_goal` for the left finger and `r_right_goal` for the right finger) from a contact point on the object to the centre of the corresponding finger motor.
   * The actual achieved radius (`r_left` for the left and `r_right` for the right).
 
-which is further normalised by the finger length `L_finger`, with formula:
+which is further normalised by the finger length `L_finger`, with the formula:
 <p align="center">
   <img width="416" alt="Screenshot 2023-09-15 at 12 06 43" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/8174c65d-b5af-40f5-9b55-b50ed50e6bb2">
 </p>

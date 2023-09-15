@@ -3,6 +3,7 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [MuJoCo Simulation Env](#mujoco-simulation-env)
+- [Only Sliding Video](#only-sliding-video)
 - [Only Sliding Training Success Rate](#only-sliding-training-success-rate)
 - [Installation and Setup](#installation-and-setup)
 - [Usage](#usage)
@@ -53,7 +54,7 @@ which is further normalised by the finger length `L_finger`, with the formula:
 </p>
 
 
-## Only Sliding Training Result Video
+## Only Sliding Video
 
 
 https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/f1124401-bde0-4848-a911-f7c36ea950ab

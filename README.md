@@ -69,8 +69,6 @@ Due to computational constraints, I trained only a few epochs to assess the impr
 
 <p align="center">
   <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/blob/327072ebf893b805a54f24c8bbe9e5ed9a81b635/success_rate.png" alt="Description" width="500">
-  <br>
-  Only Sliding Training Success Rate
 </p>
 
 

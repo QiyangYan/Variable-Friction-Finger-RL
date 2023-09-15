@@ -39,15 +39,15 @@ More detailed environment description could be found in [env folder](https://git
 For this section, I will just briefly explain the design of potential-based reward function.
 The returned reward is the negative summation of the radial difference between:
   * The desired radius (`r_left_goal` for the left finger and `r_right_goal` for the right finger) from a contact point on the object to the center of the corresponding finger motor.
-  * The actual achieved radius (`r_left_achieved` for the left and `r_right_achieved` for the right).
+  * The actual achieved radius (`r_left` for the left and `r_right` for the right).
 
-The formula for the dense reward is:
+The formula for the potential function is:
 <p align="center">
   <img width="416" alt="Screenshot 2023-09-15 at 12 06 43" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/8174c65d-b5af-40f5-9b55-b50ed50e6bb2">
 <br>
   Potential-based Reward Function
 </p>
-
+in which `L_finger` is the length of the variable friction finger for normalisation
 
 
 <p align="center">

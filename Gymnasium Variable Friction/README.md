@@ -90,8 +90,8 @@ The reward can be initialized as `sparse` or `dense`:
 
 * `dense`:
   * The returned reward is the negative summation of the radial difference between:
-    * The desired radius (r_left_goal for the left finger and r_right_goal for the right finger) from a contact point on the object to the center of the corresponding finger motor.
-    * The actual achieved radius (r_left_achieved for the left and r_right_achieved for the right).
+    * The desired radius (`r_left_goal` for the left finger and `r_right_goal` for the right finger) from a contact point on the object to the center of the corresponding finger motor.
+    * The actual achieved radius (`r_left_achieved` for the left and `r_right_achieved` for the right).
   * the formula for the dense reward is:
 
 ```python

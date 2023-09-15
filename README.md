@@ -9,6 +9,7 @@
 - [Usage](#usage)
 - [Dependencies](#dependencies)
 - [Contributions and Licensing](#contributions-and-licensing)
+- [Reference](#reference)
 
 
 
@@ -86,3 +87,6 @@ Due to computational constraints, I trained only a few epochs to assess the impr
 
 ## Contributions and Licensing
 [Provide details on contributions and any licensing information]
+
+## Reference
+https://gibberblot.github.io/rl-notes/single-agent/reward-shaping.html

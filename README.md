@@ -44,8 +44,6 @@ The potential is the negative summation of the radial difference between:
 The formula for the potential function is:
 <p align="center">
   <img width="416" alt="Screenshot 2023-09-15 at 12 06 43" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/8174c65d-b5af-40f5-9b55-b50ed50e6bb2">
-<br>
-  Potential-based Reward Function
 </p>
 in which `L_finger` is the length of the variable friction finger for normalisation
 
@@ -69,6 +67,8 @@ Due to computational constraints, I trained only a few epochs to assess the impr
 
 <p align="center">
   <img src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/blob/327072ebf893b805a54f24c8bbe9e5ed9a81b635/success_rate.png" alt="Description" width="500">
+  <be>
+   Success Rate for Sliding
 </p>
 
 

@@ -36,7 +36,7 @@ More detailed environment description could be found in [env folder](https://git
 * Truncated
 * Start state and goal state generation
 
-For this section, I will just briefly explain the design of potential-based reward function.
+For this section, I will just briefly explain the design of the **potential-based reward function**.
 The returned reward is the negative summation of the radial difference between:
   * The desired radius (`r_left_goal` for the left finger and `r_right_goal` for the right finger) from a contact point on the object to the center of the corresponding finger motor.
   * The actual achieved radius (`r_left` for the left and `r_right` for the right).

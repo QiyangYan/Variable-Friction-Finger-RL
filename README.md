@@ -41,9 +41,7 @@ The potential is the negative summation of the radial difference between:
   * The desired radius (`r_left_goal` for the left finger and `r_right_goal` for the right finger) from a contact point on the object to the center of the corresponding finger motor.
   * The actual achieved radius (`r_left` for the left and `r_right` for the right).
 
-which is further normalised by the finger length `L_finger`
-
-The formula for the potential function is:
+which is further normalised by the finger length `L_finger`, with formula:
 <p align="center">
   <img width="416" alt="Screenshot 2023-09-15 at 12 06 43" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/8174c65d-b5af-40f5-9b55-b50ed50e6bb2">
 </p>

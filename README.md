@@ -37,9 +37,11 @@ More detailed environment description could be found in [env folder](https://git
 * Start state and goal state generation
 
 For this section, I will just briefly explain the design of potential-based reward function.
-
+<p align="center">
 <img width="416" alt="Screenshot 2023-09-15 at 12 06 43" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/8174c65d-b5af-40f5-9b55-b50ed50e6bb2">
-
+<br>
+  Potential-based Reward Function
+</p>
 
 
 

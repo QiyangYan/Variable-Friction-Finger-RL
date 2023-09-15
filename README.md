@@ -40,6 +40,7 @@ For this section, I will just briefly explain the design of the **potential-base
 The potential is the negative summation of the radial difference between:
   * The desired radius (`r_left_goal` for the left finger and `r_right_goal` for the right finger) from a contact point on the object to the center of the corresponding finger motor.
   * The actual achieved radius (`r_left` for the left and `r_right` for the right).
+
 which is further normalised by the finger length `L_finger`
 
 The formula for the potential function is:

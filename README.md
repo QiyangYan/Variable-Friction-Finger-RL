@@ -44,7 +44,7 @@ A detailed environment description can be found in [env folder](https://github.c
 * Truncated
 * Start state and goal state generation
 
-For this section, I will just briefly explain the design of the **potential-based reward function** in addition to the **sparse reward**.
+For this section, I will just briefly explain the design of the **potential-based reward function**[1] in addition to the **sparse reward**.
 The potential is the negative summation of the radial difference between:
   * The desired radius (`r_left_goal` for the left finger and `r_right_goal` for the right finger) from a contact point on the object to the centre of the corresponding finger motor.
   * The actual achieved radius (`r_left` for the left and `r_right` for the right).
@@ -89,4 +89,4 @@ Due to computational constraints, I trained only a few epochs to assess the impr
 [Provide details on contributions and any licensing information]
 
 ## Reference
-https://gibberblot.github.io/rl-notes/single-agent/reward-shaping.html
+[1] https://gibberblot.github.io/rl-notes/single-agent/reward-shaping.html

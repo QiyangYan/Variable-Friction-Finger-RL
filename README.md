@@ -1,9 +1,10 @@
 # Learning In-Hand-Manipulation policy for Multi-Shape Objects on Variable Friction Gripper
 
+https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/f1124401-bde0-4848-a911-f7c36ea950ab
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [MuJoCo Simulation Env](#mujoco-simulation-env)
-- [Only Sliding Video](#only-sliding-video)
 - [Only Sliding Training Success Rate](#only-sliding-training-success-rate)
 - [Installation and Setup](#installation-and-setup)
 - [Usage](#usage)
@@ -53,14 +54,6 @@ which is further normalised by the finger length `L_finger`, with the formula:
 <p align="center">
   <img width="416" alt="Screenshot 2023-09-15 at 12 06 43" src="https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/8174c65d-b5af-40f5-9b55-b50ed50e6bb2">
 </p>
-
-
-## Only Sliding Video
-
-
-https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/f1124401-bde0-4848-a911-f7c36ea950ab
-
-
 
 ## Only Sliding Training Success Rate
 Due to computational constraints, I trained only a few epochs to assess the improvement from training. The graph depicts a promising increase in success rate. Interested users are encouraged to extend the training. I will finalize the trainings once I have access to a virtual machine.

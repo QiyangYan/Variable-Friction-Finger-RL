@@ -1,6 +1,6 @@
 # Learning In-Hand-Manipulation policy for Multi-Shape Objects on Variable Friction Gripper
 
-https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/6ca5f188-909d-4eca-8745-9038c9e7e460
+https://github.com/QiyangYan/Variable-Friction-Finger-RL/assets/75078611/c3abf773-7a0c-44b2-bc46-1af80c6fe1dc
 
 
 
